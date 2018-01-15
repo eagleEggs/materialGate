@@ -6,3 +6,4 @@ an editor tool to dynamically create textures based on existing textures and som
 Examples:
 
 
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/console1.png?raw=true)
