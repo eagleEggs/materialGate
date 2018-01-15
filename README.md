@@ -15,4 +15,5 @@ Examples:
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/redPlanet.png?raw=true)<p><p>
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example2.png?raw=true)<p><p>
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/redPulse.png?raw=true)<p><p>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example1.png?raw=true)
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example1.png?raw=true)<p><p>
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example4.gif?raw=true)<p><p>
