@@ -24,3 +24,8 @@ Examples:
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example1.png?raw=true)<p><p>
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example4.gif?raw=true)<p><p>
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/redPlanet.png?raw=true)<p><p>
+
+Somehow, I made clothes for a character out of a picture of Kim Kardashian and a few generated textures:<p><p>
+
+
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/kim.png?raw=true)<p><p>
