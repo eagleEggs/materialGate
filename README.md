@@ -1,2 +1,8 @@
 # materialGate
-Unity3d Asset - Aggregates colors from reference image into a new material
+
+
+an editor tool to dynamically create textures based on existing textures and some random math.
+
+Examples:
+
+
