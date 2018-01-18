@@ -14,7 +14,6 @@ Examples:
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/console1.png?raw=true)
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/tower.png?raw=true)<p><p>
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example2.png?raw=true)<p><p>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/redPulse.png?raw=true)<p><p>
 
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/1.png?raw=true)
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/2.png?raw=true)
@@ -25,6 +24,6 @@ Examples:
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example1.png?raw=true)<p><p>
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example4.gif?raw=true)
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/steelTower1.png?raw=true)<p><p>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/redPlanet.png?raw=true)<p><p>
+
 
 
