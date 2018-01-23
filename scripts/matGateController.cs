@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -8,29 +8,38 @@ public class matGateController : MonoBehaviour {
 
 	[ExecuteInEditMode]
 
-	[SerializeField] 							private Texture2D 	sourceTex;
-    [SerializeField] 	[Range(-1000, +1000)]	private float 		warpFactor;
-    [SerializeField] 	[Range(-1000, +1000)]	private float 		xFracX;
-    [SerializeField] 	[Range(-1000, +1000)]	private float 		yFracY;
-    [SerializeField] 	[Range(-1000, +1000)]	private float 		xFracXw;
-    [SerializeField] 	[Range(-1000, +1000)]	private float 		yFracYh;
-    											private float 		warpXFrac;
-    											private float 		warpYFrac;
-    											private float 		xFrac;
-    											private float 		yFrac;
+	[SerializeField] 						private Texture2D 	sourceTex;
+    [SerializeField] 	[Range(0, +100)]	private float 		warpFactor;
+    [SerializeField] 	[Range(0, +100)]	private float 		xFracX;
+    [SerializeField] 	[Range(0, +100)]	private float 		yFracY;
+    [SerializeField] 	[Range(0, +100)]	private float 		xFracXw;
+    [SerializeField] 	[Range(0, +100)]	private float 		yFracYh;
+    										private float 		warpXFrac;
+    										private float 		warpYFrac;
+    										private float 		xFrac;
+    										private float 		yFrac;
 
 
-    [SerializeField] 							private Texture2D 	destTex;
-    											private Color[] 	destPix;
-    											private float 		checkChange;
-    [SerializeField] 							private bool 		changedValue=true;
-    [SerializeField] 							private bool 		lockChanges=false;
+    [SerializeField] 						private Texture2D 	destTex;
+    										private Color[] 	destPix;
+    										private float 		checkChange;
+    [SerializeField] 						private bool 		changedValue=true;
+    [SerializeField] 						private bool 		lockChanges=false;
 
-    											private AnimationCurve curveX;
-    											private AnimationCurve curveY;
-    											private AnimationCurve curveZ;
-    										    public bool useCurves = false;
-    										    public bool enableFlow = false;
+    										private AnimationCurve curveX;
+    										private AnimationCurve curveY;
+    										private AnimationCurve curveZ;
+    										public 	bool useCurves = false;
+    										public 	bool enableFlow = false;
+    										public bool rotateTexture;
+                                            public bool parallaxTexture;
+    										public float rotateSpeed = 30f;
+
+                                            public int materialIndex = 0;
+                                            public Vector2 uvAnimationRate = new Vector2( 1.0f, 0.0f );
+                                            public string textureName = "_MainTex";
+                                            public Vector2 uvOffset = Vector2.zero;
+
 
     void Awake(){
 
@@ -56,13 +65,17 @@ public class matGateController : MonoBehaviour {
             while (x < destTex.width) {
                 xFrac = x * xFracX / (destTex.width - xFracXw);
                 yFrac = y * yFracY / (destTex.height - yFracYh);
-                warpXFrac = Mathf.Sin(xFrac * warpFactor + Time.deltaTime);
-                warpYFrac = Mathf.Sin(yFrac * warpFactor + Time.deltaTime);
+                //warpXFrac = Mathf.Sin(xFrac * warpFactor + Time.deltaTime); flux on play
+                //warpYFrac = Mathf.Sin(yFrac * warpFactor + Time.deltaTime); flux on play
+                warpXFrac = Mathf.Sin(xFrac * warpFactor);
+                warpYFrac = Mathf.Sin(yFrac * warpFactor);
+
                 //float warpYFrac = Mathf.Cos (yFrac * warpFactor);
                 destPix[y * destTex.width + x] = sourceTex.GetPixelBilinear(warpXFrac, warpYFrac);
                 x++;
                 xFracX = xFracX;
                 yFracY = yFracY;
+                
             }
             y++;
         }
@@ -71,13 +84,42 @@ public class matGateController : MonoBehaviour {
         GetComponent<Renderer>().material.mainTexture = destTex;
 
     	}
-    	if(enableFlow){
+    	if(rotateTexture){
+
+            uvOffset += ( uvAnimationRate * Time.deltaTime );
+            float offset = Time.time * 3;
+            if( rotateTexture )
+            {
+                GetComponent<Renderer>().material.SetTextureOffset("_MainTex", uvOffset);
+                //rotateTexture=false;
+            }
+    		//System.Array.Reverse(destPix, 0, 1);
+            
     		
     	}
+
+        if(parallaxTexture){
+
+            uvOffset = ( uvAnimationRate * Time.deltaTime );
+            if( parallaxTexture )
+            {
+                GetComponent<Renderer>().material.SetTextureOffset("_ParallaxMap", uvOffset);
+                //rotateTexture=false;
+            }
+            //System.Array.Reverse(destPix, 0, 1);
+            
+            
+        }
 
 
 		
 	}
+
+    void LateUpdate() 
+    {
+        //Vector2 uvOffset = Vector2.zero;
+        
+    }
 
 	public void SetCurves(AnimationCurve xC, AnimationCurve yC, AnimationCurve zC)
     {
@@ -160,15 +202,15 @@ public class matGateController : MonoBehaviour {
 
     		if (changedValue && lockChanges == false){
 
-    		float r_xFrac = Random.Range(-1000, +1000);
-    		float r_yFrac = Random.Range(-1000, +1000);
-    		float r_warpXFrac = Random.Range(-1000, +1000);
-    		float r_warpYFrac = Random.Range(-1000, +1000);
-    		float r_warpFactor = Random.Range(-1000, +1000);
-    		float r_xFracXw = Random.Range(-1000, +1000);
-    		float r_yFracYh = Random.Range(-1000, +1000);
-    		float r_xFracX = Random.Range(-1000, +1000);
-    		float r_yFracY = Random.Range(-1000, +1000);
+    		float r_xFrac = Random.Range(0, +100);
+    		float r_yFrac = Random.Range(0, +100);
+    		float r_warpXFrac = Random.Range(0, +100);
+    		float r_warpYFrac = Random.Range(0, +100);
+    		float r_warpFactor = Random.Range(0, +100);
+    		float r_xFracXw = Random.Range(0, +100);
+    		float r_yFracYh = Random.Range(0, +100);
+    		float r_xFracX = Random.Range(0, +100);
+    		float r_yFracY = Random.Range(0, +100);
 
 
 		destPix = new Color[destTex.width * destTex.height ];
@@ -199,15 +241,15 @@ public class matGateController : MonoBehaviour {
 
     		if (changedValue && lockChanges == false || enableFlow == true){
 
-    		float pr_xFrac = Random.Range(-1000, +1000);
-    		float pr_yFrac = Random.Range(-1000, +1000);
-    		float pr_warpXFrac = Random.Range(-1000, +1000);
-    		float pr_warpYFrac = Random.Range(-1000, +1000);
-    		float pr_warpFactor = Random.Range(-1000, +1000);
-    		float pr_xFracXw = Random.Range(-1000, +1000);
-    		float pr_yFracYh = Random.Range(-1000, +1000);
-    		float pr_xFracX = Random.Range(-1000, +1000);
-    		float pr_yFracY = Random.Range(-1000, +1000);
+    		float pr_xFrac = Random.Range(0, +100);
+    		float pr_yFrac = Random.Range(0, +100);
+    		float pr_warpXFrac = Random.Range(0, +100);
+    		float pr_warpYFrac = Random.Range(0, +100);
+    		float pr_warpFactor = Random.Range(0, +100);
+    		float pr_xFracXw = Random.Range(0, +100);
+    		float pr_yFracYh = Random.Range(0, +100);
+    		float pr_xFracX = Random.Range(0, +100);
+    		float pr_yFracY = Random.Range(0, +100);
 
 
 		destPix = new Color[destTex.width * destTex.height ];
@@ -239,15 +281,15 @@ public class matGateController : MonoBehaviour {
 
     		if (changedValue && lockChanges == false){
 
-    		float r_xFrac = Random.Range(0, +50);
-    		float r_yFrac = Random.Range(0, +50);
+    		float r_xFrac = Random.Range(0, +25);
+    		float r_yFrac = Random.Range(0, +25);
     		//float r_warpXFrac = Random.Range(0, +50);
     		//float r_warpYFrac = Random.Range(0, +50);
-    		float r_warpFactor = Random.Range(0, +50);
-    		float r_xFracXw = Random.Range(0, +50);
-    		float r_yFracYh = Random.Range(0, +50);
-    		float r_xFracX = Random.Range(0, +50);
-    		float r_yFracY = Random.Range(0, +50);
+    		float r_warpFactor = Random.Range(0, +25);
+    		float r_xFracXw = Random.Range(0, +25);
+    		float r_yFracYh = Random.Range(0, +25);
+    		float r_xFracX = Random.Range(0, +25);
+    		float r_yFracY = Random.Range(0, +25);
 
 
 		destPix = new Color[destTex.width * destTex.height ];
