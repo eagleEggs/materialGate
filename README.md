@@ -11,7 +11,7 @@ An editor tool to dynamically create textures based on existing textures and som
 
 - Pallettize to color maps:
   (Set the Rect Width and Height within inspector of the source image (i.e. 1024x1024), click Palletize Draft, then Save).
-  See [colorMapPal](https://www.github.com/eagleEggs/colorMapPal) for example output.
+  See [colorMapsPal](https://www.github.com/eagleEggs/colorMapsPal) for example output.
   
 
 Examples:
