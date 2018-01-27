@@ -45,7 +45,6 @@ public class matGateController : MonoBehaviour {
                                             public Rect sourceRect;
                                             private float csColorTotal;
                                             private Color[] finalList;
-                                            //public Color[] colorArray;
                                             
 
 
@@ -138,25 +137,7 @@ public void pixellate(){ // pixellate
                 }
                 n++;
 
-            
-            
-
-
-                
-            
-            
-
-            
-
-            //if (!colorArray.Contains(cs)){
-            //    Debug.Log("Texture already has " + cs + " ");
-                //cs = Color.black;
-            //    colorArray.Add(Color.black);
-
-           // } else{
-                    
-            //        colorArray.Add(cs);
-
+  
 
 
 
@@ -172,19 +153,13 @@ public void pixellate(){ // pixellate
             colorsFinal.Add(key.Value);
             }
 
-            //colorSort.Add(csColorTotal);
 
-            //colorSort.Sort();
-        
-        //for (int i =0, i <= pic.count){
 
 
 
         
         Color[] ending = colorsFinal.ToArray();
-        //colorArray[1].Sort();
-        //Color[] cols = colorArray.ToArray();
-        //Color[] cols2 = sourceTex.GetPixels(x, y, width, height);
+
         destTex = new Texture2D(width, height);
         destTex.SetPixels(ending);
         destTex.Apply();
@@ -192,6 +167,80 @@ public void pixellate(){ // pixellate
 
 
     }
+
+    public void hatchemall(){
+
+
+        List<Color> colrs = new List<Color>();
+        List<Color> colorArray = new List<Color>();
+        List<float> colorSort = new List<float>();
+        Dictionary <float, Color> myColors = new Dictionary <float, Color>();
+        Dictionary <float, Color> myColors2 = new Dictionary <float, Color>();
+        List<Color> colorsFinal = new List<Color>();
+
+        
+
+        int x = Mathf.FloorToInt(sourceRect.x);
+        int y = Mathf.FloorToInt(sourceRect.y);
+        int width = Mathf.FloorToInt(sourceRect.width);
+        int height = Mathf.FloorToInt(sourceRect.height);
+
+        Color[] pix = sourceTex.GetPixels(x, y, width, height);
+
+        destTex2 = new Texture2D(width, height);
+        
+        int n = 0;
+        int nn = 0;
+        int n2 = 0;
+        int nn2 = 0;
+
+        string cnum = n.ToString();
+        foreach (Color cs in pix){
+            
+            if(nn <= 64){
+                if(n ==64){n=0;nn++;}
+
+            float csr = cs.r;
+            float csg = cs.g;
+            float csb = cs.b;
+            float csa = cs.a;
+            csColorTotal = csr+csg+csb+csa / 4f;
+
+                
+
+                
+                    //if(!myColors.ContainsKey(csColorTotal)){
+
+                        colorsFinal.Add(cs);
+                        var go = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                        Color mesh = go.GetComponent<Renderer>().material.color = cs;
+                        go.AddComponent<pixelSurrogate_hatch>();
+                        go.transform.position = new Vector3(n, nn, 0);                          
+                        destTex2.SetPixel(n, nn, cs);
+
+                        Debug.Log("adding");
+                        Debug.Log(n);
+                        n++;
+                        //}
+
+                        
+
+                
+                
+                }
+
+            }
+ 
+
+
+
+
+        destTex2.Apply();
+            
+
+
+    }
+
 
 public void palletize3(){
 
@@ -256,26 +305,7 @@ public void palletize3(){
             
             
 
-            //foreach()
 
-            //foreach (KeyValuePair<float,Color> kvp in myColors) {
-            
-            
-            //var foos = myColors.Values.ToArray();
-            //var foos2 = myColors2.Values.ToArray();
-            //var connect = foos.Concat(foos2).ToArray();
-
-            //var finish = connect.ToArray();
-
-            //foos.Keys.Sort();
-            //var list = myColors.Keys.ToList();
-            //list.Sort();
-            //Debug.Log(list);
-            //foreach(var key in myColors){
-            //Debug.Log(key.Key);
-            //Debug.Log(key.Value);
-            //colorsFinal.Add(key.Value);
-            //}
         foreach (Color cs in pix){
             
             if(nn <= 36){
@@ -306,8 +336,7 @@ public void palletize3(){
                         n++;
                         
                         
-                        //destTex2.SetPixel(n, nn, cs);
-                       
+
 
 
                     }
@@ -320,12 +349,7 @@ public void palletize3(){
                 }
 
         }
-        //Color[] ending = colorsFinal.ToArray();
-        //Debug.Log(colorsFinal[0]);
-        //Debug.Log(colorsFinal[10]);
-        //Debug.Log(colorsFinal[50]);
-        
-        //destTex2.SetPixels(connect);
+
         destTex2.Apply();
             
 
