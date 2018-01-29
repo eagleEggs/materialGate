@@ -9,14 +9,6 @@ An editor tool to dynamically create textures based on existing textures and som
 - Add to Shader properties for awesome results
 - Pixellation, Large or Small Randomization options
 
-- Pallettize to color maps:
-  (Set the Rect Width and Height within inspector of the source image (i.e. 1024x1024), click Palletize Draft, then Save).
-  See [colorMapsPal](https://www.github.com/eagleEggs/colorMapsPal) for example output.
-  
-- Pixellate your texture to gameObjects and play with them:
-  See [pixelSurrogate](https://www.github.com/eagleEggs/pixelSurrogate) for example output.
-  
-
 Examples:
 
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/console1.png?raw=true)
