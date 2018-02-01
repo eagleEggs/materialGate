@@ -9,6 +9,25 @@ An editor tool to dynamically create textures in edit and runtime modes for cool
 - Add to Shader properties for awesome results
 - Pixellation, Large or Small Randomization options
 
+NOTE: Backup your textures or use test textures until you know how it works!!!
+ 
+
+Examples:
+
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/console1.png?raw=true)
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/tower.png?raw=true)<br>
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example2.png?raw=true)<br>
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/1.png?raw=true)
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/2.png?raw=true)
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/3.png?raw=true)<br>
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/4.png?raw=true)<br>
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/5.png?raw=true)<br>
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example1.png?raw=true)<br>
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example4.gif?raw=true)
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/steelTower1.png?raw=true)<br>
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/waterWorld2.gif?raw=true)<br>
+
+
 Warning: If you drag a texure onto the destination texture input on the controller - it will be overridden.
  - Backup your textures or use test textures until you know how it works
  - Always use duplicates of textures just in case - not originals.
@@ -34,22 +53,6 @@ Note:
  - On the textures used, you will need to make it readable.
  - Click on the texture within your assets folder, and check 'Read/Write Enabled'
  - You may also need to use the Advanced section and override the settings to use RGBA 32 Bit
- 
-
-Examples:
-
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/console1.png?raw=true)
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/tower.png?raw=true)<br>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example2.png?raw=true)<br>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/1.png?raw=true)
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/2.png?raw=true)
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/3.png?raw=true)<br>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/4.png?raw=true)<br>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/5.png?raw=true)<br>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example1.png?raw=true)<br>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/example4.gif?raw=true)
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/steelTower1.png?raw=true)<br>
-![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/waterWorld2.gif?raw=true)<br>
 
 
 
