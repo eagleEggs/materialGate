@@ -17,7 +17,7 @@ matGate is fully functioning however additional features and optimizations are o
 Backup your textures or use test textures until you know how it works!!!
  
 
-Examples:
+## Examples
 
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/matGateImages.png?)<br>
 
