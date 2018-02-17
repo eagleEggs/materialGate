@@ -14,6 +14,7 @@ matGate is fully functioning however additional features and optimizations are o
 - Pixellation, Large or Small Randomization options
 
 ### Note
+Backup your scene and project prior to use.
 Backup your textures or use test textures until you know how it works!!!
  
 
