@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(matGateController))]
+[CanEditMultipleObjects]
 public class matGateEditor : Editor {
 
 	private string saveName = "Enter Save Name"; // save name string
@@ -18,16 +19,27 @@ public class matGateEditor : Editor {
     private Color colSelected = new Color(0.3f, 0.3f, 0.3f);
 
     private int selectedIndex = 0;
+    private bool loopAnimation = false;
+
+    private GUIStyle miniLabelStyle = new GUIStyle();
 
 
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector(); // initialize Inspector
-
-
+        //EditorGUILayout.LabelField(serializedObject.FindProperty("loopAnimation").stringValue);
+        miniLabelStyle.wordWrap = true;
         matGateController matGate = (matGateController)target; // attach matGateController
+        //loopAnimation = matGateController.loopAnimation;
 
         // Various Button:
+        GUILayout.Space(6);
+        EditorGUILayout.LabelField("General Controls", EditorStyles.boldLabel);
+        GUILayout.Label("General options for modification to the texture.");
+        EditorGUILayout.BeginVertical("Box");
+        GUILayout.Label("These functions are to be used in scene mode. They will be saved for game mode. Change values above and click Update. You can save at anytime.", miniLabelStyle);
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.BeginVertical("Box");
         if (GUILayout.Button("Update")) // Updates the texture with the changed values in edit mode
         {
             matGate.pushGate();
@@ -44,6 +56,11 @@ public class matGateEditor : Editor {
         {
             matGate.pushGate_randomPixel();
         }
+        if (GUILayout.Button("Loop Animation")) // randomly pixellates the entire texture
+        {
+            if (loopAnimation == false) { loopAnimation = true; } else { loopAnimation = false; }
+            Repaint();
+        }
         if (GUILayout.Button("Save")) // save the texture with the save named entered as the string
         {
             matGate.pushGate_save(saveName);
@@ -51,17 +68,23 @@ public class matGateEditor : Editor {
 
         saveName = GUILayout.TextField(saveName, 25); // max filename length is 25 characters
 
+        EditorGUILayout.EndVertical();
+        GUILayout.Space(3);
 
         //mode7:
-
-        col1 = EditorGUILayout.ColorField("Odd row colour", col1);
-        col2 = EditorGUILayout.ColorField("Even row colour", col2);
-        colSelected = EditorGUILayout.ColorField("Selected row colour", colSelected);
-
-        //Mode7Controller controller = (Mode7Controller)target;
+        #region Drawing Mode7Config fields and updating the config
+        GUILayout.Space(6);
+        EditorGUILayout.LabelField("Animation Controls", EditorStyles.boldLabel);
+        GUILayout.Label("Animation options for recording modification to the texture.");
+        EditorGUILayout.BeginVertical("Box");
+        GUILayout.Label("Enter values for x, y, and others. Click '+' to add more states. Change your colors for the grid to your liking. This works in scene and game modes.", miniLabelStyle);
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.BeginVertical("Box");
+        col1 = EditorGUILayout.ColorField("Odd row color", col1);
+        col2 = EditorGUILayout.ColorField("Even row color", col2);
+        colSelected = EditorGUILayout.ColorField("Selected row color", colSelected);
 
         matGate.animationCurve = EditorGUILayout.CurveField("Animation Curve", matGate.animationCurve, Color.green, new Rect(0, 0, 1, 1), GUILayout.Height(100));
-
         matGate.animationTime = Mathf.Max(EditorGUILayout.DelayedFloatField("Animation time", matGate.animationTime), 0);
 
         float buttonWidth = 25;
@@ -128,7 +151,7 @@ public class matGateEditor : Editor {
                 targetConfig = matGate.configs[i];
             }
 
-            #region Drawing Mode7Config fields and updating the config
+
             Mode7Config config = matGate.configs[i];
             config.h = EditorGUI.FloatField(new Rect(buttonWidth + 20 + spacing + (spacing + fieldWidth) * 0, r.y, fieldWidth, r.height), config.h, numberFieldStyle);
             config.v = EditorGUI.FloatField(new Rect(buttonWidth + 20 + spacing + (spacing + fieldWidth) * 1, r.y, fieldWidth, r.height), config.v, numberFieldStyle);
@@ -168,10 +191,12 @@ public class matGateEditor : Editor {
 
         if (isAnimating)
         {
-            if (matGate.animationStartTime + matGate.animationTime < Time.time)
+            if (matGate.animationStartTime + matGate.animationTime < Time.deltaTime)
             {
                 //Debug.Log("Animation end");
-                isAnimating = false;
+         
+                    isAnimating = false;
+
             }
             else
             {
@@ -187,6 +212,8 @@ public class matGateEditor : Editor {
             {
             matGate.SetConfig(matGate.configs[selectedIndex]);
             }
+        EditorGUILayout.EndVertical();
+        GUILayout.Space(3);
         }
 
 

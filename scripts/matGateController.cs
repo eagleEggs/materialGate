@@ -5,26 +5,26 @@ using UnityEditor;
 using System.IO;
 using System.Linq;
 
+[CustomEditor(typeof(matGateController))]
 public class matGateController : MonoBehaviour
 {
 
     [ExecuteInEditMode]
-
+    [Header("Primary Texture Manipulation Controls")]
     [SerializeField]
-    private Texture2D sourceTex; // source texture to use
-    [SerializeField] [Range(0, +100)] private float warpFactor = 100f; // warp
-    [SerializeField] [Range(0, +100)] private float xFracX = 0.01f; // warp x
-    [SerializeField] [Range(0, +100)] private float yFracY = 0.01f; // warp y
-    [SerializeField] [Range(0, +100)] private float xFracXw; // warp x width
-    [SerializeField] [Range(0, +100)] private float yFracYh; // warp y width
+    private Texture2D sourceTexture; // source texture to use
+    [SerializeField] [Range(0, +100)] private float warpAmount = 100f; // warp
+    [SerializeField] [Range(0, +100)] private float warpXAmount = 0.01f; // warp x
+    [SerializeField] [Range(0, +100)] private float warpYAmount = 0.01f; // warp y
+    [SerializeField] [Range(0, +100)] private float warpWidthXAmount; // warp x width
+    [SerializeField] [Range(0, +100)] private float warpHeightYAmount; // warp y width
 
     private float warpXFrac; // variables to store the settings
     private float warpYFrac;
     private float xFrac;
     private float yFrac;
 
-
-    [SerializeField] private Texture2D destTex; // destination texture that will be modified with changes from the source tex
+    [SerializeField] private Texture2D destinationTexture; // destination texture that will be modified with changes from the source tex
     private Color[] destPix; // color array for pixel changes
     private float checkChange; // check if value was changed
     [SerializeField] private bool allowChanges = true; // it was changed
@@ -35,10 +35,10 @@ public class matGateController : MonoBehaviour
     private Vector2 uvOffset = Vector2.zero; // offset UV at runtime
 
     //mode7 (from : https://github.com/KuboS0S/Mode7Shader)
-    public AnimationCurve animationCurve;
-    public float animationTime = 0.5f;
-    public float timeStep = 0.05f;
-    public float animationStartTime;
+    [HideInInspector] public AnimationCurve animationCurve;
+    [HideInInspector] public float animationTime = 0.5f;
+    [HideInInspector] public float timeStep = 0.05f;
+    [HideInInspector] public float animationStartTime;
     private Material _material;
 
     void Awake()
@@ -67,7 +67,7 @@ public class matGateController : MonoBehaviour
             return _material;
         }
     }
-    public List<Mode7Config> configs = new List<Mode7Config>();
+    [HideInInspector] public List<Mode7Config> configs = new List<Mode7Config>();
     public Mode7Config InterpolateFromTo(Mode7Config config1, Mode7Config config2, float time)
     {
         float value = animationCurve.Evaluate(time);
@@ -88,6 +88,7 @@ public class matGateController : MonoBehaviour
             Material.GetFloat("_D")
             );
     }
+    [ExecuteInEditMode]
     public void SetConfig(Mode7Config config)
     {
         Material.SetFloat("_H", config.h);
@@ -111,29 +112,29 @@ public class matGateController : MonoBehaviour
 
 
 
-            destPix = new Color[destTex.width * destTex.height]; // set the destpix array to be the w and h of the destination texture
+            destPix = new Color[destinationTexture.width * destinationTexture.height]; // set the destpix array to be the w and h of the destination texture
             int y = 0; // iterate y and x all accross the texture until the end
-            while (y < destTex.height)
+            while (y < destinationTexture.height)
             {
                 int x = 0;
-                while (x < destTex.width) // apply animation to the texture
+                while (x < destinationTexture.width) // apply animation to the texture
                 {
-                    xFrac = x * xFracX / (destTex.width - xFracXw); // warp x
-                    yFrac = y * yFracY / (destTex.height - yFracYh); // warp y
-                    warpXFrac = Mathf.Sin(xFrac * warpFactor); // apply Sin wave to x
-                    warpYFrac = Mathf.Sin(yFrac * warpFactor); // apply sin wave to y
+                    xFrac = x * warpXAmount / (destinationTexture.width - warpWidthXAmount); // warp x
+                    yFrac = y * warpYAmount / (destinationTexture.height - warpHeightYAmount); // warp y
+                    warpXFrac = Mathf.Sin(xFrac * warpAmount); // apply Sin wave to x
+                    warpYFrac = Mathf.Sin(yFrac * warpAmount); // apply sin wave to y
 
-                    destPix[y * destTex.width + x] = sourceTex.GetPixelBilinear(warpXFrac, warpYFrac); // for the entire texture, apply the warping
+                    destPix[y * destinationTexture.width + x] = sourceTexture.GetPixelBilinear(warpXFrac, warpYFrac); // for the entire texture, apply the warping
                     x++; // iterate x
-                    xFracX = xFracX; // ?
-                    yFracY = yFracY;
+                    warpXAmount = warpXAmount; // ?
+                    warpYAmount = warpYAmount;
 
                 }
                 y++; // iterate y
             }
-            destTex.SetPixels(destPix); // set the new pixels on the destination texture
-            destTex.Apply(); // apply them
-            GetComponent<Renderer>().material.mainTexture = destTex; // set the texture to the material
+            destinationTexture.SetPixels(destPix); // set the new pixels on the destination texture
+            destinationTexture.Apply(); // apply them
+            GetComponent<Renderer>().material.mainTexture = destinationTexture; // set the texture to the material
 
         }
         if (rotateTexture) // if rotating is enabled
@@ -166,26 +167,26 @@ public class matGateController : MonoBehaviour
 
 
 
-            destPix = new Color[destTex.width * destTex.height];
+            destPix = new Color[destinationTexture.width * destinationTexture.height];
             int y = 0;
-            while (y < destTex.height)
+            while (y < destinationTexture.height)
             {
                 int x = 0;
-                while (x < destTex.width)
+                while (x < destinationTexture.width)
                 {
-                    float xFrac = x * xFracX / (destTex.width - xFracXw);
-                    float yFrac = y * yFracY / (destTex.height - yFracYh);
-                    float warpXFrac = Mathf.Sin(xFrac * warpFactor + Time.deltaTime);
-                    float warpYFrac = Mathf.Sin(yFrac * warpFactor + Time.deltaTime);
+                    float xFrac = x * warpXAmount / (destinationTexture.width - warpWidthXAmount);
+                    float yFrac = y * warpYAmount / (destinationTexture.height - warpHeightYAmount);
+                    float warpXFrac = Mathf.Sin(xFrac * warpAmount + Time.deltaTime);
+                    float warpYFrac = Mathf.Sin(yFrac * warpAmount + Time.deltaTime);
 
-                    destPix[y * destTex.width + x] = sourceTex.GetPixelBilinear(warpXFrac, warpYFrac);
+                    destPix[y * destinationTexture.width + x] = sourceTexture.GetPixelBilinear(warpXFrac, warpYFrac);
                     x++;
                 }
                 y++;
             }
-            destTex.SetPixels(destPix);
-            destTex.Apply();
-            GetComponent<Renderer>().material.mainTexture = destTex;
+            destinationTexture.SetPixels(destPix);
+            destinationTexture.Apply();
+            GetComponent<Renderer>().material.mainTexture = destinationTexture;
 
         }
     }
@@ -203,34 +204,34 @@ public class matGateController : MonoBehaviour
             float r_yFrac = Random.Range(0, +100);
             float r_warpXFrac = Random.Range(0, +100);
             float r_warpYFrac = Random.Range(0, +100);
-            float r_warpFactor = Random.Range(0, +100);
-            float r_xFracXw = Random.Range(0, +100);
-            float r_yFracYh = Random.Range(0, +100);
-            float r_xFracX = Random.Range(0, +100);
-            float r_yFracY = Random.Range(0, +100);
+            float r_warpAmount = Random.Range(0, +100);
+            float r_warpWidthXAmount = Random.Range(0, +100);
+            float r_warpHeightYAmount = Random.Range(0, +100);
+            float r_warpXAmount = Random.Range(0, +100);
+            float r_warpYAmount = Random.Range(0, +100);
 
 
-            destPix = new Color[destTex.width * destTex.height];
+            destPix = new Color[destinationTexture.width * destinationTexture.height];
             int r_y = 0;
-            while (r_y < destTex.height)
+            while (r_y < destinationTexture.height)
             {
                 int r_x = 0;
-                while (r_x < destTex.width)
+                while (r_x < destinationTexture.width)
                 {
-                    r_xFrac = r_x * r_xFracX / (destTex.width - r_xFracXw);
-                    r_yFrac = r_y * r_yFracY / (destTex.height - r_yFracYh);
-                    r_warpXFrac = Mathf.Sin(r_xFrac * r_warpFactor + Time.deltaTime);
-                    r_warpYFrac = Mathf.Sin(r_yFrac * r_warpFactor + Time.deltaTime);
+                    r_xFrac = r_x * r_warpXAmount / (destinationTexture.width - r_warpWidthXAmount);
+                    r_yFrac = r_y * r_warpYAmount / (destinationTexture.height - r_warpHeightYAmount);
+                    r_warpXFrac = Mathf.Sin(r_xFrac * r_warpAmount + Time.deltaTime);
+                    r_warpYFrac = Mathf.Sin(r_yFrac * r_warpAmount + Time.deltaTime);
 
-                    destPix[r_y * destTex.width + r_x] = sourceTex.GetPixelBilinear(r_warpXFrac, r_warpYFrac);
+                    destPix[r_y * destinationTexture.width + r_x] = sourceTexture.GetPixelBilinear(r_warpXFrac, r_warpYFrac);
                     r_x++;
 
                 }
                 r_y++;
             }
-            destTex.SetPixels(destPix);
-            destTex.Apply();
-            GetComponent<Renderer>().material.mainTexture = destTex;
+            destinationTexture.SetPixels(destPix);
+            destinationTexture.Apply();
+            GetComponent<Renderer>().material.mainTexture = destinationTexture;
 
 
 
@@ -247,33 +248,33 @@ public class matGateController : MonoBehaviour
             float pr_yFrac = Random.Range(0, +100);
             float pr_warpXFrac = Random.Range(0, +100);
             float pr_warpYFrac = Random.Range(0, +100);
-            float pr_warpFactor = Random.Range(0, +100);
-            float pr_xFracXw = Random.Range(0, +100);
-            float pr_yFracYh = Random.Range(0, +100);
-            float pr_xFracX = Random.Range(0, +100);
-            float pr_yFracY = Random.Range(0, +100);
+            float pr_warpAmount = Random.Range(0, +100);
+            float pr_warpWidthXAmount = Random.Range(0, +100);
+            float pr_warpHeightYAmount = Random.Range(0, +100);
+            float pr_warpXAmount = Random.Range(0, +100);
+            float pr_warpYAmount = Random.Range(0, +100);
 
 
-            destPix = new Color[destTex.width * destTex.height];
+            destPix = new Color[destinationTexture.width * destinationTexture.height];
             int r_y = 0; // iterate y
-            while (r_y < destTex.height)
+            while (r_y < destinationTexture.height)
             {
                 int r_x = 0;
-                while (r_x < destTex.width)
+                while (r_x < destinationTexture.width)
                 {
-                    pr_xFrac = Random.Range(0, destTex.width); // randomly place the pixel on width of texture
-                    pr_yFrac = Random.Range(0, destTex.height); // randomly place the pixel on height of texture
-                    pr_warpXFrac = Mathf.Sin(pr_xFrac * pr_warpFactor * Time.deltaTime); // sin wave
-                    pr_warpYFrac = Mathf.Sin(pr_yFrac * pr_warpFactor * Time.deltaTime); // sin wave
-                    destPix[r_y * destTex.width + r_x] = sourceTex.GetPixelBilinear(pr_warpXFrac, pr_warpYFrac);
+                    pr_xFrac = Random.Range(0, destinationTexture.width); // randomly place the pixel on width of texture
+                    pr_yFrac = Random.Range(0, destinationTexture.height); // randomly place the pixel on height of texture
+                    pr_warpXFrac = Mathf.Sin(pr_xFrac * pr_warpAmount * Time.deltaTime); // sin wave
+                    pr_warpYFrac = Mathf.Sin(pr_yFrac * pr_warpAmount * Time.deltaTime); // sin wave
+                    destPix[r_y * destinationTexture.width + r_x] = sourceTexture.GetPixelBilinear(pr_warpXFrac, pr_warpYFrac);
                     r_x++; // iterate x
 
                 }
                 r_y++; // iterate y
             }
-            destTex.SetPixels(destPix);
-            destTex.Apply();
-            GetComponent<Renderer>().material.mainTexture = destTex;
+            destinationTexture.SetPixels(destPix);
+            destinationTexture.Apply();
+            GetComponent<Renderer>().material.mainTexture = destinationTexture;
 
 
 
@@ -290,34 +291,34 @@ public class matGateController : MonoBehaviour
             float r_xFrac = Random.Range(0, +25);
             float r_yFrac = Random.Range(0, +25);
 
-            float r_warpFactor = Random.Range(0, +25);
-            float r_xFracXw = Random.Range(0, +25);
-            float r_yFracYh = Random.Range(0, +25);
-            float r_xFracX = Random.Range(0, +25);
-            float r_yFracY = Random.Range(0, +25);
+            float r_warpAmount = Random.Range(0, +25);
+            float r_warpWidthXAmount = Random.Range(0, +25);
+            float r_warpHeightYAmount = Random.Range(0, +25);
+            float r_warpXAmount = Random.Range(0, +25);
+            float r_warpYAmount = Random.Range(0, +25);
 
 
-            destPix = new Color[destTex.width * destTex.height];
+            destPix = new Color[destinationTexture.width * destinationTexture.height];
             int r_y = 0;
-            while (r_y < destTex.height)
+            while (r_y < destinationTexture.height)
             {
                 int r_x = 0;
-                while (r_x < destTex.width)
+                while (r_x < destinationTexture.width)
                 {
-                    r_xFrac = r_x * r_xFracX / (destTex.width - r_xFracXw);
-                    r_yFrac = r_y * r_yFracY / (destTex.height - r_yFracYh);
-                    float r_warpXFrac = Mathf.Sin(r_xFrac * r_warpFactor + Time.deltaTime);
-                    float r_warpYFrac = Mathf.Sin(r_yFrac * r_warpFactor + Time.deltaTime);
+                    r_xFrac = r_x * r_warpXAmount / (destinationTexture.width - r_warpWidthXAmount);
+                    r_yFrac = r_y * r_warpYAmount / (destinationTexture.height - r_warpHeightYAmount);
+                    float r_warpXFrac = Mathf.Sin(r_xFrac * r_warpAmount + Time.deltaTime);
+                    float r_warpYFrac = Mathf.Sin(r_yFrac * r_warpAmount + Time.deltaTime);
 
-                    destPix[r_y * destTex.width + r_x] = sourceTex.GetPixelBilinear(r_warpXFrac, r_warpYFrac);
+                    destPix[r_y * destinationTexture.width + r_x] = sourceTexture.GetPixelBilinear(r_warpXFrac, r_warpYFrac);
                     r_x++;
 
                 }
                 r_y++;
             }
-            destTex.SetPixels(destPix);
-            destTex.Apply();
-            GetComponent<Renderer>().material.mainTexture = destTex;
+            destinationTexture.SetPixels(destPix);
+            destinationTexture.Apply();
+            GetComponent<Renderer>().material.mainTexture = destinationTexture;
 
 
 
@@ -332,13 +333,13 @@ public class matGateController : MonoBehaviour
     {
 
 
-        Texture2D destTexCopy = new Texture2D(destTex.width, destTex.height, TextureFormat.RGBA32, false); // prepare a new texture to copy contents that were generated
-        Graphics.CopyTexture(destTex, 0, 0, destTexCopy, 0, 0); // copy the texture
+        Texture2D destinationTextureCopy = new Texture2D(destinationTexture.width, destinationTexture.height, TextureFormat.RGBA32, false); // prepare a new texture to copy contents that were generated
+        Graphics.CopyTexture(destinationTexture, 0, 0, destinationTextureCopy, 0, 0); // copy the texture
 
-        destTexCopy.Apply(); // apply it
-        byte[] bytes = destTexCopy.EncodeToPNG(); // encode the bytes to PNG
+        destinationTextureCopy.Apply(); // apply it
+        byte[] bytes = destinationTextureCopy.EncodeToPNG(); // encode the bytes to PNG
         File.WriteAllBytes("Assets/!materialGate/" + saveName + ".png", bytes); // save the file
-        DestroyImmediate(destTexCopy); // destroy the copy
+        DestroyImmediate(destinationTextureCopy); // destroy the copy
         AssetDatabase.Refresh(); // refresh assets
     }
 
