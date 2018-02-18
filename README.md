@@ -22,7 +22,7 @@ Backup your textures or use test textures until you know how it works!!!
 
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/matGateImages.png?)<br>
 
-## Texture Manipulation Examples
+## Texture Animation Examples
 
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/mode7_1.gif?)<br>
 
