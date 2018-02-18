@@ -27,6 +27,11 @@ Backup your textures or use test textures until you know how it works!!!
 
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/mode7_1.gif?)<br>
 
+## Inspector Settings Examples
+
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/inspector_Settings.png?)
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/inspector_Animation.png?)<br>
+
 ## Warning
 If you drag a texure onto the destination texture input on the controller - it will be overridden.
  - Backup your textures or use test textures until you know how it works
