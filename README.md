@@ -12,6 +12,7 @@ matGate is fully functioning however additional features and optimizations are o
 - Output texture saved and applied to material
 - Add to Shader properties for awesome results
 - Pixellation, Large or Small Randomization options
+- Create animations with your textures (Thanks to https://github.com/KuboS0S/Mode7Shader)
 
 ### Note
 Backup your scene and project prior to use.
