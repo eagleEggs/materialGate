@@ -18,9 +18,13 @@ Backup your scene and project prior to use.
 Backup your textures or use test textures until you know how it works!!!
  
 
-## Examples
+## Texture Manipulation Examples
 
 ![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/matGateImages.png?)<br>
+
+## Texture Manipulation Examples
+
+![anim1](https://github.com/eagleEggs/materialGate/blob/master/screenShots/mode7_1.gif?)<br>
 
 ## Warning
 If you drag a texure onto the destination texture input on the controller - it will be overridden.
