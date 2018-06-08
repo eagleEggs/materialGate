@@ -1,5 +1,4 @@
-# materialGate
-
+# materialGate ![Packagist](https://img.shields.io/badge/Status-Stable-green.svg?style=plastic) ![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg?style=plastic) ![Packagist](https://img.shields.io/badge/Platform-Unity3d-black.svg?style=plastic) ![Packagist](https://img.shields.io/badge/Languages-C%23%2CShader-orange.svg?style=plastic)
 
 An editor tool to dynamically create textures in edit and runtime modes for cool results - after getting aquainted
 
