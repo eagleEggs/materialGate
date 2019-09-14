@@ -2,6 +2,9 @@
 
 An editor tool to dynamically create textures in edit and runtime modes for cool results - after getting aquainted
 
+## Update
+Still works with latest Unity3d build as of 09/2019 and build back through 2017.
+
 ## Current Status
 matGate is fully functioning however additional features and optimizations are on the roadmap.
 
